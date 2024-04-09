@@ -127,7 +127,7 @@ namespace algoim
                 for (int i = 0; i < N; ++i)
                     msqr += util::sqr(gradf(i));
                 if (msqr > util::sqr(0.5*r))
-                    gradf *= 0.5*r/sqrt(msqr);
+                    gradf *= 0.5*r/std::sqrt(msqr);
 
                 // Update
                 for (int i = 0; i < N; ++i)
@@ -137,7 +137,7 @@ namespace algoim
             else
             {
                 // Newton's method failed, since Hessian was detected to be approximately singular. This generally
-                // only occurs when x is (very) near the centre of curvature of the surface. In this case, revert to 
+                // only occurs when x is (very) near the centre of curvature of the surface. In this case, revert to
                 // a type of gradient descent
                 uvector<double,N> delta1 = (phival/magsqrgrad)*phigrad;
                 lambda = dot(ref - x, phigrad) / magsqrgrad;
@@ -145,7 +145,7 @@ namespace algoim
                 // Clamp delta2, the tangential direction, necessary when interface undergoes high curvature
                 double msqr = sqrnorm(delta2);
                 if (msqr > util::sqr(0.1*r))
-                    delta2 *= 0.1*r/sqrt(msqr);
+                    delta2 *= 0.1*r/std::sqrt(msqr);
                 x -= delta1 + delta2;
             }
 

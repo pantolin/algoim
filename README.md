@@ -1,7 +1,15 @@
 # Algoim
 ### Algorithms for implicitly defined geometry, level set methods, and Voronoi implicit interface methods.
 
-For a description, examples, and install instructions, see the [Algoim GitHub page](https://algoim.github.io/).
+This is a fork of the original Algoim's repository.
+For a description of the original version, examples, and install instructions, see the [Algoim GitHub page](https://algoim.github.io/).
+
+This fork includes some new features respect to the original version, namely:
+* New functionalities for creating non-conforming high-order reparameterizations of implicit domains both for general smooth function and one or several Bernstein polynomials. It also supports reparameterization of the levelset manifold and the domain's *wirebasket*.
+* VTK exporting capabilities for reparameterizations.
+* Support for Bspline functions and functions defined in Cartesian grids (both for quadrature and reparameterization).
+* Implementation of SVD and generalized eigenvalue functions for computing polynomials roots as alternative to LAPACK.
+* Library of gyroid functions.
 
 ## Notice
 

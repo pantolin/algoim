@@ -1,6 +1,11 @@
 #ifndef ALGOIM_UTILITY_HPP
 #define ALGOIM_UTILITY_HPP
 
+#include "uvector.hpp"
+#include "real.hpp"
+
+#include <array>
+
 // Minor utility methods used throughout Algoim
 
 namespace algoim::util 
@@ -80,6 +85,137 @@ namespace algoim::util
         x =  c * a + s * b;
         y = -s * a + c * b;
     };
+
+    // Transforms a std::array to a uvector.
+    template<typename T, int N>
+    uvector<T,N> toUvector(const std::array<T, N> &_arr)
+    {
+        uvector<T,N> vec;
+        for(int dir = 0; dir < N; ++dir)
+            vec(dir) = _arr[dir];
+        return vec;
+    }
+
+
+    /**
+     * @brief Struct for comparing two uvectors as "_a < _b".
+     * This was defined for using uvectors as key in std::map.
+     * 
+     * It compares the first component of both vector: if they are
+     * different, returns the result of _a(0) <  _b(0); if equal,
+     * compares the second component, and so on.
+     * 
+     * @tparam T Types of the vectors.
+     * @tparam N Dimensions of the vectors.
+     * @param _a First vector to compare.
+     * @param _b Second vector to compare.
+     * @return True if the _a is smaller than _b (according to the
+     * definition above), false otherwise.
+     */
+    template<typename T, int N>
+    struct UvectorCompare {
+        bool operator()(const uvector<T, N> &_a, const uvector<T, N> &_b) const {
+            if constexpr (0 < N )
+            {
+                for(int dir = 0; dir < N; ++dir)
+                {
+                    if (_a(dir) == _b(dir))
+                        continue;
+                    return _a(dir) < _b(dir);
+                }
+            }
+            return false;
+        }
+    };
+
+    /**
+     * @brief Computes the flat index from a tensor index for a given size per dimension
+     * using counter-lexicographical ordering (higher dimensions faster).
+     * 
+     * @tparam N Dimension.
+     * @param _n Size per dimension.
+     * @param _tid Tensor index.
+     * @return Flat index.
+     */
+    template<int N>
+    static int toFlatIndex(const uvector<int, N> &_n, const uvector<int,N> &_tid)
+    {
+        int id = _tid(0);
+        for (int i = 1; i < N; ++i)
+            id = _n(i) * id + _tid(i);
+        return id;
+    }
+
+    /**
+     * @brief Computes the tensor index from the flat index for a given
+     * size per dimension using counter-lexicographical ordering (higher dimensions faster).
+     * 
+     * @tparam N Dimension.
+     * @param _n Size per dimension.
+     * @param _id Flat index.
+     * @return Tensor index.
+     */
+    template<int N>
+    static uvector<int,N> toTensorIndex(const uvector<int, N> &_n, int _id)
+    {
+        assert(0 <= _id && _id < prod(_n));
+
+        int s = prod(_n);
+
+        uvector<int, N> tid;
+        for(int i = 0; i < N; ++i)
+        {
+            s /= _n(i);
+            tid(i) = _id / s;
+            _id -= tid(i) * s;
+        }
+        return tid;
+    }
+
+    /**
+     * @brief Computes the flat index from a tensor index for a given size per dimension
+     * using lexicographical ordering (lower dimensions faster).
+     * 
+     * @tparam N Dimension.
+     * @param _n Size per dimension.
+     * @param _tid Tensor index.
+     * @return Flat index.
+     */
+    template<int N>
+    static int toFlatIndexLex(const uvector<int, N> &_n, const uvector<int,N> &_tid)
+    {
+        int id = _tid(N-1);
+        for(int i = N-2; i >= 0; --i)
+            id = _n(i) * id + _tid(i);
+        return id;
+    }
+
+    /**
+     * @brief Computes the tensor index from the flat index for a given
+     * size per dimension using lexicographical ordering (lower dimensions faster).
+     * 
+     * @tparam N Dimension.
+     * @param _n Size per dimension.
+     * @param _id Flat index.
+     * @return Tensor index.
+     */
+    template<int N>
+    static uvector<int,N> toTensorIndexLex(const uvector<int, N> &_n, int _id)
+    {
+        assert(0 <= _id && _id < prod(_n));
+
+        int s = prod(_n);
+
+        uvector<int, N> tid;
+        for(int i = N-1; i >= 0; --i)
+        {
+            s /= _n(i);
+            tid(i) = _id / s;
+            _id -= tid(i) * s;
+        }
+        return tid;
+    }
+
 } // namespace algoim::util
 
 #endif
