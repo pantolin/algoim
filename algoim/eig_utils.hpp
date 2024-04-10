@@ -601,7 +601,7 @@ namespace detail
         real *alphar, *alphai, *beta, *lscale, *rscale;
         algoim_spark_alloc(real, &alphar, N, &alphai, N, &beta, N, &lscale, N, &rscale, N);
         real abnrm, bbnrm;
-        int ilo, ihi;
+        lapack_int ilo, ihi;
         static_assert(std::is_same_v<real, double>, "Algoim's default LAPACK code assumes real == double; a custom generalised eigenvalue solver is required when real != double");
         const int info = LAPACKE_dggevx(LAPACK_ROW_MAJOR, 'B', 'N', 'N', 'N', N, A.data(), N, B.data(), N, alphar, alphai, beta, nullptr, N, nullptr, N, &ilo, &ihi, lscale, rscale, &abnrm, &bbnrm, nullptr, nullptr);
         const bool success = info == 0;
