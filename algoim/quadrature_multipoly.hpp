@@ -528,6 +528,26 @@ namespace algoim
             }
             build(true, false);
         }
+        // Build quadrature hierarchy for a domain implicitly defined by three polynomials
+        ImplicitPolyQuadrature(const xarray<real,N>& p, const xarray<real,N>& q, const xarray<real,N>& r)
+        {
+            {
+                auto mask = detail::nonzeroMask(p, booluarray<N,ALGOIM_M>(true));
+                if (!detail::maskEmpty(mask))
+                    phi.push_back(p, mask);
+            }
+            {
+                auto mask = detail::nonzeroMask(q, booluarray<N,ALGOIM_M>(true));
+                if (!detail::maskEmpty(mask))
+                    phi.push_back(q, mask);
+            }
+            {
+                auto mask = detail::nonzeroMask(r, booluarray<N,ALGOIM_M>(true));
+                if (!detail::maskEmpty(mask))
+                    phi.push_back(r, mask);
+            }
+            build(true, false);
+        }
 
         // Build quadrature hierarchy for a given domain implicitly defined by two polynomials with user-defined masks
         ImplicitPolyQuadrature(const xarray<real,N>& p, const booluarray<N,ALGOIM_M>& pmask, const xarray<real,N>& q, const booluarray<N,ALGOIM_M>& qmask)

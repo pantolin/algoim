@@ -856,6 +856,36 @@ reparam(const xarray<real, N> &_bzr0, const xarray<real, N> &_bzr1, const int _o
 }
 
 /**
+ * @brief Reparameterizes a domain defined by three Bezier implicit functions
+ * in the unit hypercube domain.
+ * 
+ * @tparam N Parametric dimension of the function.
+ * @tparam S Flag indicating if the reparameterization must
+ *         be performed only for the levelset surface (true), i.e.,
+ *         the manifold where the either of the three Bezier functions are
+ *         equal to 0, or the subregion (false) between those surfaces,
+ *         where both Bezier functions are negative.
+ * @param _bzr0 First Bezier implicit function defining the domain.
+ * @param _bzr1 Second Bspline implicit function defining the domain.
+ * @param _bzr2 Third Bspline implicit function defining the domain.
+ * @param _order Order of the reparameterization (number of points
+ *        per direction in each reparameterization cell).
+ * @return Vector of Lagrange or Bezier elements that reparameterize
+ *        either the surface or the volume.
+ */
+template<int N, bool S = false>
+std::vector<std::shared_ptr<algoim::detail::ReparamElemType<S?N-1:N,N>>>
+reparam(const xarray<real, N> &_bzr0, const xarray<real, N> &_bzr1, const xarray<real, N> &_bzr2, const int _order)
+{
+    std::vector<const xarray<real,N> *> polys;
+    polys.push_back(&_bzr0);
+    polys.push_back(&_bzr1);
+    polys.push_back(&_bzr2);
+
+    return detail::ImplicitPolyReparam<N,N,S>::reparameterize(polys, _order);
+}
+
+/**
  * @brief Reparameterizes a Bezier implicit function in the unit hypercube domain
  * creating only the edges wirebasket.
  * 
@@ -907,6 +937,38 @@ reparamWirebasket(const xarray<real, N> &_bzr0, const xarray<real, N> &_bzr1, co
     std::vector<const xarray<real,N> *> polys;
     polys.push_back(&_bzr0);
     polys.push_back(&_bzr1);
+
+    return algoim::bezier::detail::extractWirebasket<N,S>(rep, polys);
+}
+
+/**
+ * @brief Reparameterizes a domain defined by three Bezier implicit functions
+ * in the unit hypercube domain creating only the edges wirebasket.
+ * 
+ * @tparam N Parametric dimension of the function.
+ * @tparam S Flag indicating if the reparameterization must
+ *         be performed only for the levelset surface (true), i.e.,
+ *         the manifold where the either of the three Bezier functions are
+ *         equal to 0, or the subregion (false) between those surfaces,
+ *         where both Bezier functions are negative.
+ * @param _bzr0 First Bezier implicit function defining the domain.
+ * @param _bzr1 Second Bspline implicit function defining the domain.
+ * @param _bzr2 Third Bspline implicit function defining the domain.
+ * @param _order Order of the reparameterization (number of points
+ *        per direction in each reparameterization cell).
+ * @return Vector of Lagrange or Bezier elements that reparameterize
+ *        either the surface or the volume's wirebasket.
+ */
+template<int N, bool S = false>
+std::vector<std::shared_ptr<algoim::lagrange::LagrangeTP<1,N>>>
+reparamWirebasket(const xarray<real, N> &_bzr0, const xarray<real, N> &_bzr1, const xarray<real, N> &_bzr2, const int _order)
+{
+    const auto rep = reparam<N,S>(_bzr0, _bzr1, _bzr2, _order);
+
+    std::vector<const xarray<real,N> *> polys;
+    polys.push_back(&_bzr0);
+    polys.push_back(&_bzr1);
+    polys.push_back(&_bzr2);
 
     return algoim::bezier::detail::extractWirebasket<N,S>(rep, polys);
 }
