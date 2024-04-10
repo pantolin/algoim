@@ -850,7 +850,7 @@ reparam(const xarray<real, N> &_bzr0, const xarray<real, N> &_bzr1, const int _o
 {
     std::vector<const xarray<real,N> *> polys;
     polys.push_back(&_bzr0);
-    polys.push_back(&_bzr0);
+    polys.push_back(&_bzr1);
 
     return detail::ImplicitPolyReparam<N,N,S>::reparameterize(polys, _order);
 }
@@ -906,7 +906,7 @@ reparamWirebasket(const xarray<real, N> &_bzr0, const xarray<real, N> &_bzr1, co
 
     std::vector<const xarray<real,N> *> polys;
     polys.push_back(&_bzr0);
-    polys.push_back(&_bzr0);
+    polys.push_back(&_bzr1);
 
     return algoim::bezier::detail::extractWirebasket<N,S>(rep, polys);
 }
