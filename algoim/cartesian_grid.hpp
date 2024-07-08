@@ -215,7 +215,7 @@ public:
 
         for(MultiLoop<N> i(indices_start, indices_end); ~i; ++i)
         {
-            const auto elem_id = PolynomialTP<N,1>::toFlatIndex(n_elems_dir, i());
+            const auto elem_id = util::toFlatIndex(n_elems_dir, i());
             element_indices.push_back(elem_id);
         }
 
