@@ -27,6 +27,27 @@ struct Grid
      * 
      * @param _n_elems_dir Number of elements per direction.
      */
+    Grid(std::array<std::vector<real>, N> _data) : data(_data)
+    {
+        #ifndef NDEBUG
+        const auto n_elems_dir = this->getNumElemsDir();
+        for(int dir = 0; dir < N; ++dir)
+        {
+            for(int i = 0; i < n_elems_dir(i); ++i)
+            {
+                assert(data[dir][i] < data[dir][i+1]);
+            }
+        }
+        #endif // NDEBUG
+    }
+
+    /**
+     * @brief Constructor.
+     * Creates a grid in the hypercube [0,1]^N
+     * with @p _n_elems_dir per direction.
+     * 
+     * @param _n_elems_dir Number of elements per direction.
+     */
     Grid(const uvector<real, N> &_xmin,
          const uvector<real, N> &_xmax,
          const uvector<int, N> &_n_elems_dir)
