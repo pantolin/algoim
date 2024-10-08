@@ -69,6 +69,8 @@ namespace algoim
         T* ptr;
         int len;
 
+        xarraySlice(T *ptr, int len) : ptr(ptr), len(len){};
+
         xarraySlice(xarraySlice&) = delete;
         xarraySlice(xarraySlice&&) = delete;
 
@@ -201,6 +203,14 @@ namespace algoim
         const T& a(int i) const
         {
             return data_[i];
+        }
+
+        // Slice and flatten this(i,:)
+        template<int NN = N, std::enable_if_t<(NN > 1), bool> = true>
+        auto a(int i)
+        {
+            int span = prod(ext_, 0);
+            return xarraySlice<T>{data_ + i * span, span};
         }
 
         // Slice and flatten this(i,:)
