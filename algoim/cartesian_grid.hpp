@@ -107,8 +107,8 @@ struct SubGrid
      * @brief Constructor.
      * 
      * @param _grid Parent grid.
-     * @param _indices_start Start indices of the coordinates of teh parent grid.
-     * @param _indices_end End indices of the coordinates of teh parent grid.
+     * @param _indices_start Start indices of the coordinates of the parent grid.
+     * @param _indices_end End indices of the coordinates of the parent grid.
      */
     SubGrid(const Grid<N> &_grid,
             const uvector<int, N> &_indices_start,
