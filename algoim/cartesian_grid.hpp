@@ -1,13 +1,14 @@
 #ifndef ALGOIM_CARTESIAN_GRID_H
 #define ALGOIM_CARTESIAN_GRID_H
 
-#include "polynomial_tp.hpp"
-#include "quadrature_general.hpp"
 #include "hyperrectangle.hpp"
 #include "real.hpp"
 #include "uvector.hpp"
+#include "multiloop.hpp"
+#include "utility.hpp"
 
 #include <memory>
+#include <cassert>
 
 namespace algoim
 {
