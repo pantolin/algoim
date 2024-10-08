@@ -740,7 +740,7 @@ struct Gyroid
      * @p _porosity Porosity function.
      * @note Gyroid periods are set to 1.
      */
-    Gyroid(const P &_porosity) : Gyroid(_porosity, uvector<real,N>(1.0)) {}
+    Gyroid(const P &_porosity) : Gyroid(_porosity, 1.0) {}
 
     /**
      * @brief Constructor.
@@ -748,7 +748,7 @@ struct Gyroid
      * @p _m Gyroid periods.
      */
     Gyroid(const P &_porosity,
-           const uvector<real, N> &_m)
+           const uvector<real, 3> &_m)
     : porosity(_porosity), m(_m)
     {
         static_assert(N == 2 || N == 3, "Not implemented.");
