@@ -92,6 +92,24 @@ struct Grid
         return n_elems_dir;
     }
 
+    /**
+     * @brief Creates the bounding box of the given element.
+     * 
+     * @return Bounding box of the element.
+     */
+    HyperRectangle<real, N> getDomain(const int _elem_id) const
+    {
+        const auto elem_tid = util::toTensorIndex(this->getNumElemsDir(), _elem_id);
+        HyperRectangle<real, N> domain(0, 1);
+        for(int dir = 0; dir < N; ++dir)
+        {
+            domain.min(dir) = this->data[dir][elem_tid(dir)];
+            domain.max(dir) = this->data[dir][elem_tid(dir) + 1];
+        }
+
+        return domain;
+    }
+
 };
 
 /**
