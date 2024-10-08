@@ -33,7 +33,7 @@ struct Grid
         const auto n_elems_dir = this->getNumElemsDir();
         for(int dir = 0; dir < N; ++dir)
         {
-            for(int i = 0; i < n_elems_dir(i); ++i)
+            for(int i = 0; i < n_elems_dir(dir); ++i)
             {
                 assert(data[dir][i] < data[dir][i+1]);
             }
