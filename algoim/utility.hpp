@@ -5,6 +5,7 @@
 #include "real.hpp"
 
 #include <array>
+#include <cassert>
 
 // Minor utility methods used throughout Algoim
 
