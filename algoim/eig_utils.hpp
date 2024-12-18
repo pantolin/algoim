@@ -602,7 +602,7 @@ hqr(real *A, int n, real *wri)
  * @param out Complex eigenvalues to be computed.
  * @return True is succeed, false otherwise.
  */
-bool
+static bool
 generalisedEigenvaluesLAPACK(xarray<real, 2> &A, xarray<real, 2> &B, xarray<real, 2> &out)
 {
   int N = A.ext(0);
