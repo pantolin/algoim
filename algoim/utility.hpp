@@ -3,7 +3,13 @@
 
 // Minor utility methods used throughout Algoim
 
-namespace algoim::util 
+#include "real.hpp"
+#include "uvector.hpp"
+
+#include <cmath>
+#include <type_traits>
+
+namespace algoim::util
 {
     static_assert(std::is_same_v<real, double>, "Warning: pi constant may require redefining when real != double");
     static constexpr double pi = 3.141592653589793238462643383279502884197169399375105820974944592307816;
