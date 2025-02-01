@@ -99,7 +99,7 @@ namespace algoim
         // OneDimRootFind takes in a multi-dimensional functional, reimagines it as a one-dimensional function
         // by freezing all but one of the axes (with the values of the frozen coordinates are passed in the ctor),
         // and computes the roots of the resulting 1-D function in a given interval, assuming that the function
-        // is monotone on that interval. Although a struct, OneDimRootFind is essentially a void function. 
+        // is monotone on that interval. Although a struct, OneDimRootFind is essentially a void function.
         template<typename F, int N>
         struct OneDimRootFind
         {
@@ -160,7 +160,7 @@ namespace algoim
                     Interval<N>::delta(i) = real(0.0);
                 }
             }
-    
+
             // First test to see if the function's value is bounded away from zero; if it is, then there are no roots.
             Interval<N> val = f(xint);
             if (val.uniformSign())
@@ -266,7 +266,7 @@ namespace algoim
         int psiCount;
         const HyperRectangle<real,N> xrange;
         const int p;
-        int e0;
+        int e0{-1};
         uvector<Interval<N>,N> xint;
 
         // Prune the given set of functions by checking for the existence of the interface. If a function is
@@ -516,7 +516,7 @@ namespace algoim
                         return;
                     }
                 }
-                
+
                 // Direction is okay - build restricted level set functions and determine the appropriate signs
                 int bottomSign, topSign;
                 detail::determineSigns<S>(g(e0).alpha > 0.0, psi[i].sign(), bottomSign, topSign);

@@ -200,6 +200,9 @@ collapseAlongAxis(const xarray<real, N>& beta, const uvector<real, N - 1>& x0, i
       real s = beta.l(i);
       for (int j = 0; j < N; ++j)
         if (j < dim)
+#ifndef NDEBUG
+#pragma GCC diagnostic ignored "-Warray-bounds"
+#endif
           s *= basis(j)[i(j)];
         else if (j > dim)
           s *= basis(j - 1)[i(j)];

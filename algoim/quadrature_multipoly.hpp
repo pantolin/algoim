@@ -190,6 +190,7 @@ restrictToFace(const xarray<real, N>& a, int k, int side, xarray<real, N - 1>& o
   {
     uvector<int, N> j;
     for (int dim = 0; dim < N; ++dim)
+#pragma GCC diagnostic ignored "-Warray-bounds"
       j(dim) = (dim < k) ? i(dim) : ((dim == k) ? side * (P - 1) : i(dim - 1));
     out.l(i) = a.m(j);
   }
@@ -205,6 +206,7 @@ restrictToFace(const booluarray<N, ALGOIM_M>& a, int k, int side)
   {
     uvector<int, N> j;
     for (int dim = 0; dim < N; ++dim)
+#pragma GCC diagnostic ignored "-Warray-bounds"
       j(dim) = (dim < k) ? i(dim) : ((dim == k) ? side * (ALGOIM_M - 1) : i(dim - 1));
     r(i()) = a(j);
   }

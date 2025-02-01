@@ -4,7 +4,7 @@
 // algoim::uvector implements a vector with compile-time known extent, including
 // arithmetic expressions and various utility methods. It could be viewed as, e.g.,
 // a light-weight, self-contained, re-implementation of blitz's TinyVector<T,N>,
-// (https://en.wikipedia.org/wiki/Blitz%2B%2B), using more modern C++17/20 
+// (https://en.wikipedia.org/wiki/Blitz%2B%2B), using more modern C++17/20
 // techniques.
 
 #include <type_traits>
@@ -102,7 +102,7 @@ namespace algoim
     auto operator- (const E& e)
     {
         constexpr int N = detail::extent<E>::value;
-        if constexpr (std::is_lvalue_reference<E&&>::value)   
+        if constexpr (std::is_lvalue_reference<E&&>::value)
             return detail::make_uvector_expr<N>([&e](int i){ return -detail::eval(e, i); });
         else
             return detail::make_uvector_expr<N>([ e](int i){ return -detail::eval(e, i); });
@@ -114,7 +114,7 @@ namespace algoim
     {
         using std::abs;
         constexpr int N = detail::extent<E>::value;
-        if constexpr (std::is_lvalue_reference<E&&>::value)   
+        if constexpr (std::is_lvalue_reference<E&&>::value)
             return detail::make_uvector_expr<N>([&e](int i){ return abs(detail::eval(e, i)); });
         else
             return detail::make_uvector_expr<N>([ e](int i){ return abs(detail::eval(e, i)); });
@@ -383,6 +383,7 @@ namespace algoim
         {
             uvector<T,N+1> v;
             for (int i = 0; i < N + 1; ++i)
+#pragma GCC diagnostic ignored "-Warray-bounds"
                 v(i) = i < index ? u(i) : (i == index ? value : u(i - 1));
             return v;
         }
