@@ -73,7 +73,7 @@ svdcmp(real **a, int nRows, int nCols, real *w, real **vt)
   /// Maximum number of iterations.
   static const int max_its = 30;
 
-  int flag, i, its, j, jj, k, l, nm;
+  int flag, i, its, j, jj, k, l, nm{0};
   real anorm, c, f, g, h, s, scale, x, y, z;
 
   std::vector<real> rv1;
